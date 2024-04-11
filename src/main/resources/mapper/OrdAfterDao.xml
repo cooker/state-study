@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.OrdAfterDao">
+  <resultMap id="BaseResultMap" type="org.example.entity.OrdAfter">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="after_id" jdbcType="VARCHAR" property="afterId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="status_cd" jdbcType="TINYINT" property="statusCd" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, after_id, order_id, status_cd, amount
+  </sql>
+
+</mapper>
