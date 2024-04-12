@@ -1,15 +1,19 @@
 package org.example.service;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.example.core.IdUtils;
 import org.example.entity.OrdOrder;
 import org.example.entity.OrdOrderItem;
+import org.example.entity.dto.OrderListVo;
 import org.example.mapper.OrdOrderDao;
 import org.example.mapper.OrdOrderItemDao;
 import org.example.statemachine.forward.core.OrderStateEnum;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * grant
@@ -44,5 +48,17 @@ public class OrderService {
         ordOrderItemDao.insert(ordOrderItem);
 
         return orderId;
+    }
+
+    public List<OrderListVo> list() {
+        List<OrdOrderItem> datas = ordOrderItemDao.selectList(Wrappers.emptyWrapper());
+        List<OrderListVo> result = new ArrayList<>();
+        for (OrdOrderItem it : datas) {
+            OrderListVo vo = new OrderListVo();
+            vo.setOrderId(it.getOrderId());
+            vo.setOrderItemId(it.getOrderItemId());
+            vo.setQty(it.getQty());
+        }
+        return result;
     }
 }

@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -13,11 +14,11 @@ public class OrdAfterWorkflow implements Serializable {
 
     private String afterId;
 
-    private Byte currentStatusCd;
+    private Integer currentStatusCd;
 
-    private Byte nextStatusCd;
+    private Integer nextStatusCd;
 
-    private Date createdTime;
+    private LocalDateTime createdTime;
 
     private String remark;
 

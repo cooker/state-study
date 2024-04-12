@@ -1,5 +1,7 @@
 package org.example.statemachine.reverse.core;
 
-public enum ReverseEventEnum {
-    E_SUBMIT, //发起售后
+import org.example.statemachine.EventMap;
+
+public enum ReverseEventEnum implements EventMap {
+    E_CREATE, //创建售后单
 }

@@ -32,8 +32,14 @@ public class ReverseStateMachineConfig extends EnumStateMachineConfigurerAdapter
     public void configure(StateMachineStateConfigurer<ReverseStateEnum, ReverseEventEnum> states) throws Exception {
         //配置可用状态
         states.withStates().initial(ReverseStateEnum.CREATED)
+                .end(ReverseStateEnum.FINISH)
+                .end(ReverseStateEnum.CANCEL)
+                .end(ReverseStateEnum.CLOSED)
+                .end(ReverseStateEnum.ERROR)
                 .states(EnumSet.allOf(ReverseStateEnum.class));
     }
+
+
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<ReverseStateEnum, ReverseEventEnum> config) throws Exception {
@@ -46,6 +52,8 @@ public class ReverseStateMachineConfig extends EnumStateMachineConfigurerAdapter
     @Override
     public void configure(StateMachineTransitionConfigurer<ReverseStateEnum, ReverseEventEnum> transitions) throws Exception {
         //配置状态流转
-        super.configure(transitions);
+        transitions.withExternal()
+                .source(ReverseStateEnum.CREATED).target(ReverseStateEnum.CREATED)
+                .event(ReverseEventEnum.E_CREATE);
     }
 }
