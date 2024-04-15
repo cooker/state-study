@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.OrdOrderItemDao">
-  <resultMap id="BaseResultMap" type="org.example.entity.OrdOrderItem">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
-    <result column="order_item_id" jdbcType="VARCHAR" property="orderItemId" />
-    <result column="qty" jdbcType="INTEGER" property="qty" />
-    <result column="amount" jdbcType="DOUBLE" property="amount" />
-    <result column="delete_flag" jdbcType="TINYINT" property="deleteFlag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, order_id, order_item_id, qty, amount, delete_flag
-  </sql>
+    <resultMap id="BaseResultMap" type="org.example.entity.OrdOrderItem">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="order_item_id" jdbcType="VARCHAR" property="orderItemId"/>
+        <result column="qty" jdbcType="INTEGER" property="qty"/>
+        <result column="amount" jdbcType="DOUBLE" property="amount"/>
+        <result column="delete_flag" jdbcType="TINYINT" property="deleteFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, order_id, order_item_id, qty, amount, delete_flag
+    </sql>
+    <select id="selectByOrderId" resultType="org.example.entity.OrdOrderItem">
+      select <include refid="Base_Column_List"/> from merchant_order_sub_item
+      <where>
+          order_id = #{orderId}
+      </where>
+    </select>
 
 </mapper>

@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.statemachine.StateMachineLogListener;
 import org.example.statemachine.reverse.core.ReverseEventEnum;
 import org.example.statemachine.reverse.core.ReverseStateEnum;
+import org.example.statemachine.reverse.event.ReverseStateListenerConfig;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.statemachine.config.EnableStateMachineFactory;
+import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
@@ -22,11 +23,15 @@ import java.util.EnumSet;
  **/
 @Slf4j
 @Configuration
-@EnableStateMachineFactory
+@EnableStateMachine
 public class ReverseStateMachineConfig extends EnumStateMachineConfigurerAdapter<ReverseStateEnum, ReverseEventEnum> {
 
     @Resource
     private StateMachineLogListener reverseStateMachineLogListener;
+    @Resource
+    private ReverseStateListenerConfig.ReverseCreateGuard reverseCreateGuard;
+    @Resource
+    private ReverseStateListenerConfig.ReverseCreateAction reverseCreateAction;
 
     @Override
     public void configure(StateMachineStateConfigurer<ReverseStateEnum, ReverseEventEnum> states) throws Exception {
@@ -46,7 +51,7 @@ public class ReverseStateMachineConfig extends EnumStateMachineConfigurerAdapter
         //配置状态机ID
         config.withConfiguration().autoStartup(true)
               .listener(reverseStateMachineLogListener)
-              .machineId(ClassUtils.getShortName(ReverseStateMachineConfig.class));
+              .machineId(ClassUtils.getShortName(ReverseStateMachineConfig.class).replace("Config", ""));
     }
 
     @Override
@@ -54,6 +59,7 @@ public class ReverseStateMachineConfig extends EnumStateMachineConfigurerAdapter
         //配置状态流转
         transitions.withExternal()
                 .source(ReverseStateEnum.CREATED).target(ReverseStateEnum.CREATED)
+                .guard(reverseCreateGuard).action(reverseCreateAction)
                 .event(ReverseEventEnum.E_CREATE);
     }
 }

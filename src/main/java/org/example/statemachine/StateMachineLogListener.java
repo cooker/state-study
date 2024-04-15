@@ -14,15 +14,19 @@ public class StateMachineLogListener<S extends StateMap, E extends EventMap > ex
 
     @Override
     public void stateChanged(State<S, E> from, State<S, E> to) {
-        log.info("State change {} to {}", from.getId(), to.getId());
+        log.info("State change {} to {}", from == null ? null : from.getId(), to.getId());
     }
 
     @Override
     public void stateContext(StateContext<S, E> stateContext) {
         if (stateContext.getStage() == StateContext.Stage.STATE_ENTRY) {
-            log.info("{} enter {}", stateContext.getStateMachine().getId(), stateContext.getTarget().getId());
+            log.info("{} enter {} >> {}", stateContext.getStateMachine().getId(), stateContext.getTarget().getId(), external(stateContext));
         } else if (stateContext.getStage() == StateContext.Stage.STATE_EXIT) {
-            log.info("{} exit {}", stateContext.getStateMachine().getId(), stateContext.getSource().getId());
+            log.info("{} exit {} >> {}", stateContext.getStateMachine().getId(), stateContext.getSource().getId(), external(stateContext));
         }
+    }
+
+    protected String external(StateContext<S, E> stateContext) {
+        return "";
     }
 }

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.core.IdUtils;
 import org.example.entity.OrdOrder;
 import org.example.entity.OrdOrderItem;
-import org.example.entity.dto.OrderListVo;
+import org.example.entity.ddd.OrderListVo;
 import org.example.mapper.OrdOrderDao;
 import org.example.mapper.OrdOrderItemDao;
 import org.example.statemachine.forward.core.OrderStateEnum;
@@ -58,6 +58,7 @@ public class OrderService {
             vo.setOrderId(it.getOrderId());
             vo.setOrderItemId(it.getOrderItemId());
             vo.setQty(it.getQty());
+            result.add(vo);
         }
         return result;
     }
