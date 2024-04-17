@@ -1,5 +1,6 @@
 package org.example.statemachine.reverse.event;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.example.core.DaoHelper;
 import org.example.core.IdUtils;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.guard.Guard;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -40,6 +42,12 @@ public class ReverseStateListenerConfig {
         return new ReverseCreateAction();
     }
 
+    @Bean
+    public ReverseErrorAction reverseErrorAction() {
+        return new ReverseErrorAction();
+    }
+
+    @Slf4j
     public static class ReverseCreateGuard implements Guard<ReverseStateEnum, ReverseEventEnum> {
 
         @Resource
@@ -53,6 +61,7 @@ public class ReverseStateListenerConfig {
                 if (ReverseStateEnum.CREATED
                         .or(ReverseStateEnum.AUDIT_ING)
                         .or(ReverseStateEnum.DOING).test(ordAfter.getStatusCd())) {
+                    log.info("存在未完结的售后单...");
                     return false;//存在售后中的订单
                 }
             }
@@ -69,6 +78,7 @@ public class ReverseStateListenerConfig {
         private DaoHelper daoHelper;
 
         @Override
+        @Transactional(rollbackFor = Exception.class)
         public void execute(StateContext<ReverseStateEnum, ReverseEventEnum> context) {
             AfterCreateDto afterCreateDto = (AfterCreateDto) context.getMessageHeader("afterCreateDto");
             String afterId = IdUtils.id();
@@ -93,6 +103,15 @@ public class ReverseStateListenerConfig {
 
             afterDao.insert(ordAfter);
             daoHelper.insertBatch(OrdAfterItemDao.class, ordAfterItemList);
+            throw new RuntimeException("sasa");
+        }
+    }
+
+    @Slf4j
+    public static class ReverseErrorAction implements Action<ReverseStateEnum, ReverseEventEnum> {
+        @Override
+        public void execute(StateContext<ReverseStateEnum, ReverseEventEnum> context) {
+          log.info("售后失败 >>>> ");
         }
     }
 }

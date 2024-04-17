@@ -32,6 +32,8 @@ public class ReverseStateMachineConfig extends EnumStateMachineConfigurerAdapter
     private ReverseStateListenerConfig.ReverseCreateGuard reverseCreateGuard;
     @Resource
     private ReverseStateListenerConfig.ReverseCreateAction reverseCreateAction;
+    @Resource
+    private ReverseStateListenerConfig.ReverseErrorAction reverseErrorAction;
 
     @Override
     public void configure(StateMachineStateConfigurer<ReverseStateEnum, ReverseEventEnum> states) throws Exception {
@@ -59,7 +61,7 @@ public class ReverseStateMachineConfig extends EnumStateMachineConfigurerAdapter
         //配置状态流转
         transitions.withExternal()
                 .source(ReverseStateEnum.CREATED).target(ReverseStateEnum.CREATED)
-                .guard(reverseCreateGuard).action(reverseCreateAction)
+                .guard(reverseCreateGuard).action(reverseCreateAction, reverseErrorAction)
                 .event(ReverseEventEnum.E_CREATE);
     }
 }

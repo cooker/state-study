@@ -13,7 +13,7 @@
         id, order_id, order_item_id, qty, amount, delete_flag
     </sql>
     <select id="selectByOrderId" resultType="org.example.entity.OrdOrderItem">
-      select <include refid="Base_Column_List"/> from merchant_order_sub_item
+      select <include refid="Base_Column_List"/> from ord_order_item
       <where>
           order_id = #{orderId}
       </where>

@@ -12,8 +12,8 @@ import java.util.function.Predicate;
 @Getter
 @AllArgsConstructor
 public enum ReverseStateEnum implements StateMap, Predicate<Integer> {
-    CREATED(0, "待售后"),
-    AUDIT_ING(1, "待审核"),
+    CREATED(1, "待售后"),
+    AUDIT_ING(2, "待审核"),
     DOING(3,"售后中"),
     FINISH(4,"已完成"),
     CANCEL(5,"已取消"),
