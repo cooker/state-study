@@ -3,11 +3,11 @@ package org.example.service;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.example.core.IdUtils;
-import org.example.entity.OrdOrder;
-import org.example.entity.OrdOrderItem;
-import org.example.entity.ddd.OrderListVo;
-import org.example.mapper.OrdOrderDao;
-import org.example.mapper.OrdOrderItemDao;
+import org.example.dal.entity.OrdOrder;
+import org.example.dal.entity.OrdOrderItem;
+import org.example.dal.entity.ddd.OrderListVo;
+import org.example.dal.mapper.OrdOrderDao;
+import org.example.dal.mapper.OrdOrderItemDao;
 import org.example.statemachine.forward.core.OrderStateEnum;
 import org.springframework.stereotype.Service;
 

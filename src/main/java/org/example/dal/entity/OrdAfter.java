@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.dal.entity;
 
 import java.io.Serializable;
 import lombok.Data;

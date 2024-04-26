@@ -1,4 +1,4 @@
-package org.example.entity.ddd;
+package org.example.dal.entity.ddd;
 
 import lombok.Data;
 

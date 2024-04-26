@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.example.mapper.OrdAfterItemDao">
-  <resultMap id="BaseResultMap" type="org.example.entity.OrdAfterItem">
+<mapper namespace="org.example.dal.mapper.OrdAfterItemDao">
+  <resultMap id="BaseResultMap" type="org.example.dal.entity.OrdAfterItem">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="after_id" jdbcType="VARCHAR" property="afterId" />
     <result column="order_item_id" jdbcType="VARCHAR" property="orderItemId" />

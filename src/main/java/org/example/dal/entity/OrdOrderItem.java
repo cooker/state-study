@@ -1,16 +1,17 @@
-package org.example.entity;
+package org.example.dal.entity;
 
-import java.io.Serializable;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
- * ord_after_item
+ * ord_order_item
  */
 @Data
-public class OrdAfterItem implements Serializable {
+public class OrdOrderItem implements Serializable {
     private Long id;
 
-    private String afterId;
+    private String orderId;
 
     private String orderItemId;
 

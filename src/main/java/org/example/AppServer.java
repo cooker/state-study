@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 
 @Slf4j
 @EnableOpenApi
-@MapperScan(value = "org.example.mapper")
+@MapperScan(value = "org.example.dal.mapper")
 @SpringBootApplication
 public class AppServer
 {

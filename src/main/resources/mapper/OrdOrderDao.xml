@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.example.mapper.OrdOrderDao">
-  <resultMap id="BaseResultMap" type="org.example.entity.OrdOrder">
+<mapper namespace="org.example.dal.mapper.OrdOrderDao">
+  <resultMap id="BaseResultMap" type="org.example.dal.entity.OrdOrder">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="status_cd" jdbcType="TINYINT" property="statusCd" />
