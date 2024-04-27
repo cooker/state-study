@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
@@ -27,10 +28,14 @@ public class DaoHelper {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("批量插入 " + ClassUtils.getShortName(cl));
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,false);
-        BaseMapper mapper = (BaseMapper) sqlSession.getMapper(cl);
-        datas.stream().forEach(data -> mapper.insert(data));
-        sqlSession.commit();
-        sqlSession.clearCache();
+        try {
+            BaseMapper mapper = (BaseMapper) sqlSession.getMapper(cl);
+            datas.stream().forEach(data -> mapper.insert(data));
+            sqlSession.commit();
+            sqlSession.clearCache();
+        } finally {
+            SqlSessionUtils.closeSqlSession(sqlSession, sqlSessionFactory);
+        }
         stopWatch.stop();
         log.info("批量插入：\n{}",stopWatch.prettyPrint());
     }

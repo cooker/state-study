@@ -4,13 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.example.core.DaoHelper;
 import org.example.core.IdUtils;
-import org.example.dal.entity.OrdAfter;
-import org.example.dal.entity.OrdAfterItem;
-import org.example.dal.entity.OrdOrderItem;
-import org.example.dal.entity.ddd.AfterCreateDto;
-import org.example.dal.mapper.OrdAfterDao;
-import org.example.dal.mapper.OrdAfterItemDao;
-import org.example.dal.mapper.OrdOrderItemDao;
+import org.example.dal.dao.OrdAfterDao;
+import org.example.dal.dao.OrdAfterItemDao;
+import org.example.dal.dao.OrdOrderItemDao;
+import org.example.dal.model.OrdAfter;
+import org.example.dal.model.OrdAfterItem;
+import org.example.dal.model.OrdOrderItem;
+import org.example.model.ddd.AfterCreateDto;
 import org.example.statemachine.reverse.core.ReverseEventEnum;
 import org.example.statemachine.reverse.core.ReverseHeaders;
 import org.example.statemachine.reverse.core.ReverseStateEnum;
@@ -22,6 +22,7 @@ import org.springframework.statemachine.guard.Guard;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,8 +88,8 @@ public class ReverseStateListenerConfig {
             ordAfter.setAfterId(afterId);
             ordAfter.setOrderId(afterCreateDto.getOrderId());
             ordAfter.setStatusCd(ReverseStateEnum.CREATED.getState());
-            ordAfter.setAmount(0.0D);
-            List<OrdOrderItem> orderItemList = ordOrderItemDao.selectByOrderId(afterCreateDto.getOrderId());
+            ordAfter.setAmount(BigDecimal.ZERO);
+            List<OrdOrderItem> orderItemList = ordOrderItemDao.findByOrderId(afterCreateDto.getOrderId());
             List<OrdAfterItem> ordAfterItemList = new ArrayList<>();
             for (AfterCreateDto.Item item : afterCreateDto.getItemList()) {
                 OrdOrderItem ordOrderItem = orderItemList.stream().filter(it -> StringUtils.equals(it.getOrderItemId(), item.getOrderItemId())).findFirst().get();
@@ -96,9 +97,9 @@ public class ReverseStateListenerConfig {
                 ordAfterItem.setAfterId(afterId);
                 ordAfterItem.setOrderItemId(item.getOrderItemId());
                 ordAfterItem.setQty(item.getQty());
-                ordAfterItem.setAmount(ordOrderItem.getAmount()/ ordOrderItem.getQty() * item.getQty());
+                ordAfterItem.setAmount(ordOrderItem.getAmount().divide(new BigDecimal(ordOrderItem.getQty()+"")).multiply(new BigDecimal(item.getQty() +"")));
                 ordAfterItemList.add(ordAfterItem);
-                ordAfter.setAmount(ordAfter.getAmount() + ordAfterItem.getAmount());
+                ordAfter.setAmount(ordAfter.getAmount().add(ordAfterItem.getAmount()));
             }
 
             afterDao.insert(ordAfter);

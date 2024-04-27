@@ -4,14 +4,10 @@ import lombok.Data;
 
 /**
  * grant
- * 11/4/2024 3:46 pm
+ * 2024/4/15 11:16
  **/
 @Data
-public class OrderListVo {
+public class OrderCancelDto {
 
     private String orderId;
-
-    private String orderItemId;
-
-    private Integer qty;
 }

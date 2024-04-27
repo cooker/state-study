@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="jdbc.properties"/>
+    <context id="mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="autoDelimitKeywords" value=""/>
+        <property name="beginningDelimiter" value="'"/>
+        <property name="endingDelimiter" value="'"/>
+        <property name="javaFileEncoding" value="utf-8"/>
+
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否。 自动生成注释太啰嗦，可以编码扩展CommentGenerator -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="${db.driver.class}" connectionURL="${db.url}" userId="${db.user}" password="${db.pwd}"/>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true" />
+            <property name="useJSR310Types" value="true" />
+        </javaTypeResolver>
+        <javaModelGenerator targetPackage="org.example.dal.model" targetProject="src/main/java">
+
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="mapper.sqlmap" targetProject="src/main/resources">
+
+        </sqlMapGenerator>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.example.dal.mapper" targetProject="src/main/java/">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="ord_after" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
+            <columnOverride column="type_cd" javaType="Integer" jdbcType="TINYINT"/>
+            <columnOverride column="status_cd" javaType="Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="ord_after_item" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
+            <columnOverride column="delete_flag" javaType="Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="ord_workflow" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
+            <columnOverride column="current_status_cd" javaType="Integer" jdbcType="TINYINT"/>
+            <columnOverride column="next_status_cd" javaType="Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="ord_order" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
+            <columnOverride column="status_cd" javaType="Integer" jdbcType="TINYINT"/>
+            <columnOverride column="delete_flag" javaType="Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="ord_order_item" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
+            <columnOverride column="delete_flag" javaType="Integer" jdbcType="TINYINT"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

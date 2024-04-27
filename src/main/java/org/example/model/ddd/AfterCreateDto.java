@@ -1,4 +1,4 @@
-package org.example.dal.entity.ddd;
+package org.example.model.ddd;
 
 import lombok.Data;
 
@@ -12,6 +12,7 @@ import java.util.List;
 public class AfterCreateDto {
 
     private String orderId;
+    private Integer typeCd;
     private List<Item> itemList;
 
     @Data
