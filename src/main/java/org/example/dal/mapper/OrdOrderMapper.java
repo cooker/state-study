@@ -14,9 +14,19 @@ public interface OrdOrderMapper {
 
     int deleteByPrimaryKey(Long id);
 
+    List<OrdOrder> selectByExampleSelective(@Param("example") OrdOrderExample example, @Param("selective") OrdOrder.Column ... selective);
+
+    OrdOrder selectOneByExample(OrdOrderExample example);
+
+    OrdOrder selectOneByExampleSelective(@Param("example") OrdOrderExample example, @Param("selective") OrdOrder.Column ... selective);
+
     List<OrdOrder> selectByExample(OrdOrderExample example);
 
+    OrdOrder selectByPrimaryKeySelective(@Param("id") Long id, @Param("selective") OrdOrder.Column ... selective);
+
     OrdOrder selectByPrimaryKey(Long id);
+
+    OrdOrder selectByPrimaryKeyWithLogicalDelete(@Param("id") Long id, @Param("andLogicalDeleted") boolean andLogicalDeleted);
 
     int updateByExampleSelective(@Param("row") OrdOrder row, @Param("example") OrdOrderExample example);
 
@@ -25,4 +35,12 @@ public interface OrdOrderMapper {
     int updateByPrimaryKeySelective(OrdOrder row);
 
     int updateByPrimaryKey(OrdOrder row);
+
+    int logicalDeleteByExample(@Param("example") OrdOrderExample example);
+
+    int logicalDeleteByPrimaryKey(Long id);
+
+    int batchInsert(@Param("list") List<OrdOrder> list);
+
+    int batchInsertSelective(@Param("list") List<OrdOrder> list, @Param("selective") OrdOrder.Column ... selective);
 }

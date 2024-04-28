@@ -14,7 +14,15 @@ public interface OrdWorkflowMapper {
 
     int deleteByPrimaryKey(Long id);
 
+    List<OrdWorkflow> selectByExampleSelective(@Param("example") OrdWorkflowExample example, @Param("selective") OrdWorkflow.Column ... selective);
+
+    OrdWorkflow selectOneByExample(OrdWorkflowExample example);
+
+    OrdWorkflow selectOneByExampleSelective(@Param("example") OrdWorkflowExample example, @Param("selective") OrdWorkflow.Column ... selective);
+
     List<OrdWorkflow> selectByExample(OrdWorkflowExample example);
+
+    OrdWorkflow selectByPrimaryKeySelective(@Param("id") Long id, @Param("selective") OrdWorkflow.Column ... selective);
 
     OrdWorkflow selectByPrimaryKey(Long id);
 
@@ -25,4 +33,8 @@ public interface OrdWorkflowMapper {
     int updateByPrimaryKeySelective(OrdWorkflow row);
 
     int updateByPrimaryKey(OrdWorkflow row);
+
+    int batchInsert(@Param("list") List<OrdWorkflow> list);
+
+    int batchInsertSelective(@Param("list") List<OrdWorkflow> list, @Param("selective") OrdWorkflow.Column ... selective);
 }

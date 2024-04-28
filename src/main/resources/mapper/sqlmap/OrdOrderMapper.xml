@@ -7,6 +7,7 @@
     <result column="status_cd" jdbcType="TINYINT" property="statusCd" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="delete_flag" jdbcType="TINYINT" property="deleteFlag" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_id, status_cd, amount, delete_flag
+    id, order_id, status_cd, amount, delete_flag, created_time
   </sql>
   <select id="selectByExample" parameterType="org.example.dal.model.OrdOrderExample" resultMap="BaseResultMap">
     select
@@ -83,11 +84,64 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByExampleSelective" parameterType="map" resultMap="BaseResultMap">
+    select
+    <if test="example != null and example.distinct">
+      distinct
+    </if>
+    <choose>
+      <when test="selective != null and selective.length > 0">
+        <foreach collection="selective" item="column" separator=",">
+          ${column.aliasedEscapedColumnName}
+        </foreach>
+      </when>
+      <otherwise>
+        <include refid="Base_Column_List" />
+      </otherwise>
+    </choose>
+    from ord_order
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+    <if test="example != null and example.orderByClause != null">
+      order by ${example.orderByClause}
+    </if>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from ord_order
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKeySelective" parameterType="map" resultMap="BaseResultMap">
+    select
+    <choose>
+      <when test="selective != null and selective.length > 0">
+        <foreach collection="selective" item="column" separator=",">
+          ${column.aliasedEscapedColumnName}
+        </foreach>
+      </when>
+      <otherwise>
+        <include refid="Base_Column_List" />
+      </otherwise>
+    </choose>
+    from ord_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKeyWithLogicalDelete" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ord_order
+    where id = #{id,jdbcType=BIGINT}
+      and delete_flag = 
+    <choose>
+      <when test="andLogicalDeleted">
+        1
+      </when>
+      <otherwise>
+        0
+      </otherwise>
+    </choose>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from ord_order
@@ -123,6 +177,9 @@
       <if test="row.deleteFlag != null">
         delete_flag = #{row.deleteFlag,jdbcType=TINYINT},
       </if>
+      <if test="row.createdTime != null">
+        created_time = #{row.createdTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -134,7 +191,8 @@
       order_id = #{row.orderId,jdbcType=VARCHAR},
       status_cd = #{row.statusCd,jdbcType=TINYINT},
       amount = #{row.amount,jdbcType=DECIMAL},
-      delete_flag = #{row.deleteFlag,jdbcType=TINYINT}
+      delete_flag = #{row.deleteFlag,jdbcType=TINYINT},
+      created_time = #{row.createdTime,jdbcType=TIMESTAMP}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -154,6 +212,9 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=TINYINT},
       </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -162,7 +223,89 @@
     set order_id = #{orderId,jdbcType=VARCHAR},
       status_cd = #{statusCd,jdbcType=TINYINT},
       amount = #{amount,jdbcType=DECIMAL},
-      delete_flag = #{deleteFlag,jdbcType=TINYINT}
+      delete_flag = #{deleteFlag,jdbcType=TINYINT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="logicalDeleteByExample" parameterType="map">
+    update ord_order set delete_flag = 1
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="logicalDeleteByPrimaryKey" parameterType="java.lang.Long">
+    update ord_order set delete_flag = 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectOneByExample" parameterType="org.example.dal.model.OrdOrderExample" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ord_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 1
+  </select>
+  <select id="selectOneByExampleSelective" parameterType="map" resultMap="BaseResultMap">
+    select
+    <choose>
+      <when test="selective != null and selective.length > 0">
+        <foreach collection="selective" item="column" separator=",">
+          ${column.aliasedEscapedColumnName}
+        </foreach>
+      </when>
+      <otherwise>
+        <include refid="Base_Column_List" />
+      </otherwise>
+    </choose>
+    from ord_order
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+    <if test="example != null and example.orderByClause != null">
+      order by ${example.orderByClause}
+    </if>
+    limit 1
+  </select>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    insert into ord_order
+    (order_id, status_cd, amount, delete_flag, created_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.orderId,jdbcType=VARCHAR}, #{item.statusCd,jdbcType=TINYINT}, #{item.amount,jdbcType=DECIMAL}, 
+        #{item.deleteFlag,jdbcType=TINYINT}, #{item.createdTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" keyColumn="id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
+    insert into ord_order (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'order_id'.toString() == column.value">
+          #{item.orderId,jdbcType=VARCHAR}
+        </if>
+        <if test="'status_cd'.toString() == column.value">
+          #{item.statusCd,jdbcType=TINYINT}
+        </if>
+        <if test="'amount'.toString() == column.value">
+          #{item.amount,jdbcType=DECIMAL}
+        </if>
+        <if test="'delete_flag'.toString() == column.value">
+          #{item.deleteFlag,jdbcType=TINYINT}
+        </if>
+        <if test="'created_time'.toString() == column.value">
+          #{item.createdTime,jdbcType=TIMESTAMP}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
 </mapper>
