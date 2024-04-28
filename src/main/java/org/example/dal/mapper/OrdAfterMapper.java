@@ -14,7 +14,15 @@ public interface OrdAfterMapper {
 
     int deleteByPrimaryKey(Long id);
 
+    List<OrdAfter> selectByExampleSelective(@Param("example") OrdAfterExample example, @Param("selective") OrdAfter.Column ... selective);
+
+    OrdAfter selectOneByExample(OrdAfterExample example);
+
+    OrdAfter selectOneByExampleSelective(@Param("example") OrdAfterExample example, @Param("selective") OrdAfter.Column ... selective);
+
     List<OrdAfter> selectByExample(OrdAfterExample example);
+
+    OrdAfter selectByPrimaryKeySelective(@Param("id") Long id, @Param("selective") OrdAfter.Column ... selective);
 
     OrdAfter selectByPrimaryKey(Long id);
 
@@ -25,4 +33,8 @@ public interface OrdAfterMapper {
     int updateByPrimaryKeySelective(OrdAfter row);
 
     int updateByPrimaryKey(OrdAfter row);
+
+    int batchInsert(@Param("list") List<OrdAfter> list);
+
+    int batchInsertSelective(@Param("list") List<OrdAfter> list, @Param("selective") OrdAfter.Column ... selective);
 }
