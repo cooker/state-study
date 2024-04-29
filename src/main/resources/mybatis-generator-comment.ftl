@@ -102,8 +102,7 @@
 </#list>
 </#if>
  *
- * create By Grant
- * ${.now?string("yyyy-MM-dd HH:mm:ss")}
+ * @author Grant
  * 表名： ${introspectedTable.fullyQualifiedTable}
  *
  */

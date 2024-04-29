@@ -83,8 +83,8 @@
 
         <table tableName="ord_after" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
-            <columnOverride column="type_cd" javaType="Integer" jdbcType="TINYINT"/>
-            <columnOverride column="status_cd" javaType="Integer" jdbcType="TINYINT"/>
+            <columnOverride column="type_cd" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="status_cd" javaType="java.lang.Integer" jdbcType="TINYINT"/>
         </table>
 
         <table tableName="ord_after_item" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
@@ -93,22 +93,19 @@
 
         <table tableName="ord_workflow" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
-            <columnOverride column="current_status_cd" javaType="Integer" jdbcType="TINYINT"/>
-            <columnOverride column="next_status_cd" javaType="Integer" jdbcType="TINYINT"/>
+            <columnOverride column="current_status_cd" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="next_status_cd" javaType="java.lang.Integer" jdbcType="TINYINT"/>
         </table>
 
         <table tableName="ord_order" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
-            <property name="logicalDeleteColumn" value="delete_flag"/>
-            <!-- 逻辑删除-已删除值 -->
-            <property name="logicalDeleteValue" value="1"/>
-            <!-- 逻辑删除-未删除值 -->
-            <property name="logicalUnDeleteValue" value="0"/>
             <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
-            <columnOverride column="status_cd" javaType="Integer" jdbcType="TINYINT"/>
+            <columnOverride column="status_cd" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="delete_flag" javaType="java.lang.Integer" jdbcType="TINYINT"/>
         </table>
 
         <table tableName="ord_order_item" enableCountByExample="true" enableDeleteByExample="true" enableInsert="false" enableSelectByExample="true" enableUpdateByExample="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
+            <columnOverride column="delete_flag" javaType="java.lang.Integer" jdbcType="TINYINT"/>
         </table>
 
     </context>

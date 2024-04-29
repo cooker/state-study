@@ -1,13 +1,11 @@
 package org.example.service;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.example.core.IdUtils;
 import org.example.dal.dao.OrdOrderDao;
 import org.example.dal.dao.OrdOrderItemDao;
 import org.example.dal.dao.OrdWorkflowDao;
-import org.example.dal.mapper.OrdWorkflowMapper;
 import org.example.dal.model.OrdOrder;
 import org.example.dal.model.OrdOrderItem;
 import org.example.dal.model.OrdOrderItemExample;
@@ -47,7 +45,7 @@ public class OrderService {
         ordOrder.setOrderId(orderId);
         ordOrder.setStatusCd(RandomUtils.nextBoolean() ? OrderStateEnum.S0.getStatusCd() : OrderStateEnum.S4.getStatusCd());
         ordOrder.setAmount(BigDecimal.TEN);
-        ordOrder.setDeleteFlag(0);
+        ordOrder.setDeleteFlag(OrdOrder.NOT_DELETED);
 
         ordOrderDao.insert(ordOrder);
 
@@ -58,7 +56,7 @@ public class OrderService {
         ordOrderItem.setSkuId("20334");
         ordOrderItem.setSkuName("面包");
         ordOrderItem.setAmount(BigDecimal.TEN);
-        ordOrderItem.setDeleteFlag(0);
+        ordOrderItem.setDeleteFlag(OrdOrderItem.NOT_DELETED);
         ordOrderItemDao.insert(ordOrderItem);
 
         return orderId;

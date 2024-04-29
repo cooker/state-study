@@ -13,8 +13,7 @@ import lombok.experimental.Accessors;
 
 /**
  *
- * create By Grant
- * 2024-04-28 23:33:45
+ * @author Grant
  * 表名： ord_order
  *
  */
@@ -24,9 +23,9 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdOrder implements Serializable {
-    public static final Byte IS_DELETED = DeleteFlag.DISABLE.value();
+    public static final Integer IS_DELETED = DeleteFlag.DISABLE.value();
 
-    public static final Byte NOT_DELETED = DeleteFlag.ENABLE.value();
+    public static final Integer NOT_DELETED = DeleteFlag.ENABLE.value();
 
     private Long id;
 
@@ -52,7 +51,7 @@ public class OrdOrder implements Serializable {
      * Database Column Remarks:
      *   删除状态[enable(0):未删除, disable(1):已删除]
      */
-    private Byte deleteFlag;
+    private Integer deleteFlag;
 
     /**
      * Database Column Remarks:
@@ -73,23 +72,23 @@ public class OrdOrder implements Serializable {
      * @mbg.generated
      */
     public static enum DeleteFlag {
-        ENABLE(Byte.valueOf("0"), "未删除"),
-        DISABLE(Byte.valueOf("1"), "已删除");
+        ENABLE(Integer.valueOf("0"), "未删除"),
+        DISABLE(Integer.valueOf("1"), "已删除");
 
-        private final Byte value;
+        private final Integer value;
 
         private final String name;
 
-        DeleteFlag(Byte value, String name) {
+        DeleteFlag(Integer value, String name) {
             this.value = value;
             this.name = name;
         }
 
-        public Byte getValue() {
+        public Integer getValue() {
             return this.value;
         }
 
-        public Byte value() {
+        public Integer value() {
             return this.value;
         }
 
@@ -97,7 +96,7 @@ public class OrdOrder implements Serializable {
             return this.name;
         }
 
-        public static DeleteFlag parseValue(Byte value) {
+        public static DeleteFlag parseValue(Integer value) {
             if (value != null) {
                 for (DeleteFlag item : values()) {
                     if (item.value.equals(value)) {
